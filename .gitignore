@@ -1,5 +1,5 @@
-node_modules/*
-dist/*
+/vue-demo/node_modules/*
+/vue-demo/dist/*
 
 /vue-demo/.DS_Store
 
