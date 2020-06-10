@@ -64,40 +64,51 @@ export default {
         this.list.push(createItem());
       }
     },
+
     unshift() {
       this.list.unshift(createItem());
     },
+
     push() {
       this.list.push(createItem());
     },
+
     shift() {
       this.list.shift();
     },
+
     pop() {
       this.list.pop();
     },
+
     move() {
-      const index = this.list.findIndex(item => item.id === this.targetId);
+      const index = this.list.findIndex(item => item.id === +this.targetId);
       const [item] = this.list.splice(index, 1);
       this.list.unshift(item);
     },
+
     change() {
-      const index = this.list.findIndex(item => item.id === this.targetId);
+      const index = this.list.findIndex(item => item.id === +this.targetId);
       const item = createItem();
       this.list.splice(index, 1, item);
     },
+
     toggle(item) {
       item.isShowComment = !item.isShowComment;
     },
+
     favorite(item) {
       item.favorite += 1;
     },
+
     like(item) {
       item.like += 1;
     },
+
     forward(item) {
       item.forward += 1;
     },
+
     comment(item) {
       item.comments.push({
         id: item.id + 10000 + item.comments.length,
@@ -108,7 +119,3 @@ export default {
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

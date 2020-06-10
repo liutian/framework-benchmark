@@ -30,15 +30,19 @@ export default {
     toggle() {
       this.item.isShowComment = !this.item.isShowComment;
     },
+
     favorite() {
       this.item.favorite += 1;
     },
+
     like() {
       this.item.like += 1;
     },
+
     forward() {
       this.item.forward += 1;
     },
+
     comment() {
       this.item.comments.push({
         id: this.item.id + 10000 + this.item.comments.length,
@@ -49,6 +53,3 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>
