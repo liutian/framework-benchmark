@@ -77,3 +77,26 @@ pnpm-debug.log*
 
 
 
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/react-demo/node_modules
+/react-demo/.pnp
+/react-demo.pnp.js
+
+# testing
+/react-demo/coverage
+
+# production
+/react-demo/build
+
+# misc
+/react-demo/.DS_Store
+/react-demo/.env.local
+/react-demo/.env.development.local
+/react-demo/.env.test.local
+/react-demo/.env.production.local
+
+/react-demo/npm-debug.log*
+/react-demo/yarn-debug.log*
+/react-demo/yarn-error.log*
