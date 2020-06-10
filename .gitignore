@@ -8,10 +8,10 @@ dist/*
 /vue-demo/.env.*.local
 
 # Log files
-/vue-demo/npm-debug.log*
-/vue-demo/yarn-debug.log*
-/vue-demo/yarn-error.log*
-/vue-demo/pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 # Editor directories and files
 /vue-demo/.idea
