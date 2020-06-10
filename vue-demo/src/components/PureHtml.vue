@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h2>PureHtml</h2>
+
     <div class="action-bar">
       <input type="text" v-model="maxLength" />
       <button @click="logTime('run',run())">run</button> &nbsp;&nbsp;&nbsp;&nbsp;

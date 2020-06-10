@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>PureComponent</h2>
     <div class="action-bar">
       <input type="text" v-model="maxLength" />
       <button @click="logTime('run',run())">run</button> &nbsp;&nbsp;&nbsp;&nbsp;
@@ -9,8 +10,8 @@
       <button @click="logTime('pop',pop())">pop</button>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <input type="text" v-model="targetId" />
-      <button @click="logTime('move',move())">move</button>
-      <button @click="logTime('change',change())">change</button>
+      <button @click="logTime('move',move())" :disabled="!targetId">move</button>
+      <button @click="logTime('change',change())" :disabled="!targetId">change</button>
     </div>
 
     <div>
@@ -56,12 +57,12 @@ export default {
       this.list.pop();
     },
     move() {
-      const index = this.list.findIndex(item => item.id === this.targetId);
+      const index = this.list.findIndex(item => item.id === +this.targetId);
       const [item] = this.list.splice(index, 1);
       this.list.unshift(item);
     },
     change() {
-      const index = this.list.findIndex(item => item.id === this.targetId);
+      const index = this.list.findIndex(item => item.id === +this.targetId);
       const item = createItem();
       this.list.splice(index, 1, item);
     }
