@@ -21,3 +21,59 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+
+
+
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/angular-demo/dist
+/angular-demo/tmp
+/angular-demo/out-tsc
+# Only exists if Bazel was run
+/angular-demo/bazel-out
+
+# dependencies
+/angular-demo/node_modules
+
+# profiling files
+/angular-demochrome-profiler-events*.json
+/angular-demospeed-measure-plugin*.json
+
+# IDEs and editors
+/angular-demo/.idea
+/angular-demo/.project
+/angular-demo/.classpath
+/angular-demo/.c9/
+*.launch
+/angular-demo/.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+/angular-demo/!.vscode/settings.json
+/angular-demo/!.vscode/tasks.json
+/angular-demo/!.vscode/launch.json
+/angular-demo/!.vscode/extensions.json
+/angular-demo/.history/*
+
+# misc
+/angular-demo/.sass-cache
+/angular-demo/connect.lock
+/angular-demo/coverage
+/angular-demo/libpeerconnection.log
+/angular-demo/npm-debug.log
+/angular-demo/yarn-error.log
+/angular-demo/testem.log
+/angular-demo//typings
+
+# System Files
+/angular-demo/.DS_Store
+/angular-demo/Thumbs.db
+
+
+
+
+
+
