@@ -9,6 +9,7 @@ export function createItem() {
     isShowComment: false,
     favorite: 0,
     like: 0,
-    forward: 0
+    forward: 0,
+    newComment: ''
   };
 }
