@@ -1,8 +1,9 @@
 import React from 'react';
+import PureCom from './PureCom';
 
 function App() {
   return (
-    <>hello</>
+    <PureCom></PureCom>
   );
 }
 

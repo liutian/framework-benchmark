@@ -1,0 +1,10 @@
+.item-block {
+  display: inline-block;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.action-bar {
+  text-align: center;
+  margin-bottom: 20px;
+}
