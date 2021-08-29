@@ -1,6 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import logger from '../logger';
-import { first } from 'rxjs/internal/operators/first';
 import { createItem } from '../util';
 
 @Component({
@@ -28,14 +27,14 @@ import { createItem } from '../util';
   ]
 })
 export class PureComComponent {
-  list = [];
+  list: any[] = [];
   maxLength = 30000;
   targetId = 10;
   constructor(private ngZone: NgZone) { }
 
-  logTime(sign: string, fnReturn?) {
+  logTime(sign: string, fnReturn?: any) {
     this.ngZone.runOutsideAngular(() => {
-      logger(this.ngZone.onStable.pipe(first()), sign);
+      logger(sign);
     });
   }
 
@@ -74,7 +73,7 @@ export class PureComComponent {
     this.list.splice(index, 1, item);
   }
 
-  trackById(item) {
+  trackById(item: any) {
     return item.id;
   }
 }

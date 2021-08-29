@@ -1,5 +1,4 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { first } from 'rxjs/operators';
 import logger from '../logger';
 import { createItem } from '../util';
 
@@ -50,15 +49,15 @@ import { createItem } from '../util';
   `
 })
 export class PureHtmlComponent {
-  list = [];
+  list: any[] = [];
   maxLength = 30000;
   targetId = 10;
 
   constructor(private ngZone: NgZone) { }
 
-  logTime(sign: string, fnReturn?) {
+  logTime(sign: string, fnReturn?: any) {
     this.ngZone.runOutsideAngular(() => {
-      logger(this.ngZone.onStable.pipe(first()), sign);
+      logger(sign);
     });
   }
 
@@ -97,23 +96,23 @@ export class PureHtmlComponent {
     this.list.splice(index, 1, item);
   }
 
-  toggle(item) {
+  toggle(item: any) {
     item.isShowComment = !item.isShowComment;
   }
 
-  favorite(item) {
+  favorite(item: any) {
     item.favorite += 1;
   }
 
-  like(item) {
+  like(item: any) {
     item.like += 1;
   }
 
-  forward(item) {
+  forward(item: any) {
     item.forward += 1;
   }
 
-  comment(item) {
+  comment(item: any) {
     item.comments.push({
       id: item.id + 10000 + item.comments.length,
       content: item.newComment
@@ -121,7 +120,7 @@ export class PureHtmlComponent {
     item.newComment = "";
   }
 
-  trackById(item) {
+  trackById(item: any) {
     return item.id;
   }
 }

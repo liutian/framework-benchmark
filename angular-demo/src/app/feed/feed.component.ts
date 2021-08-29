@@ -23,13 +23,13 @@ import { first } from 'rxjs/operators';
   ]
 })
 export class FeedComponent {
-  @Input() public item;
+  @Input() public item: any;
 
   constructor(private ngZone: NgZone) { }
 
-  logTime(sign: string, fnReturn?) {
+  logTime(sign: string, fnReturn?: any) {
     this.ngZone.runOutsideAngular(() => {
-      logger(this.ngZone.onStable.pipe(first()), sign);
+      logger(sign);
     });
   }
 
@@ -57,7 +57,7 @@ export class FeedComponent {
     this.item.newComment = "";
   }
 
-  trackById(comment) {
+  trackById(comment: any) {
     return comment.id;
   }
 }
