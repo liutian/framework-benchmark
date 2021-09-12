@@ -1,13 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-.btn {
-  width: 90px;
-  padding: 5px 2px;
-}
-
 .item-block {
   display: inline-block;
   margin-left: 20px;
   margin-bottom: 20px;
+  vertical-align: top;
 }
 
 .action-bar {
