@@ -8,15 +8,15 @@ import { createItem } from '../util';
     <h2>PureComponent</h2>
     <div class="action-bar">
       <input type="text" [(ngModel)]="maxLength" />
-      <button (click)="logTime('run',run())">run</button> &nbsp;&nbsp;&nbsp;&nbsp;
-      <button (click)="logTime('unshift',unshift())">unshift</button>
-      <button (click)="logTime('push',push())">push</button>
-      <button (click)="logTime('shift',shift())">shift</button>
-      <button (click)="logTime('pop',pop())">pop</button>
+      <button (click)="run()">run</button> &nbsp;&nbsp;&nbsp;&nbsp;
+      <button (click)="unshift()">unshift</button>
+      <button (click)="push()">push</button>
+      <button (click)="shift()">shift</button>
+      <button (click)="pop()">pop</button>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <input type="text" [(ngModel)]="targetId" />
-      <button (click)="logTime('move',move())" [disabled]="!targetId">move</button>
-      <button (click)="logTime('change',change())" [disabled]="!targetId">change</button>
+      <button (click)="move()" [disabled]="!targetId">move</button>
+      <button (click)="change()" [disabled]="!targetId">change</button>
     </div>
 
     <div>
@@ -32,13 +32,14 @@ export class PureComComponent {
   targetId = 10;
   constructor(private ngZone: NgZone) { }
 
-  logTime(sign: string, fnReturn?: any) {
+  logTime(sign: string) {
     this.ngZone.runOutsideAngular(() => {
       logger(sign);
     });
   }
 
   run() {
+    this.logTime('run');
     this.list = [];
     for (let i = 0; i < this.maxLength; i++) {
       this.list.push(createItem());
@@ -46,28 +47,34 @@ export class PureComComponent {
   }
 
   unshift() {
+    this.logTime('unshift');
     this.list.unshift(createItem());
   }
 
   push() {
+    this.logTime('push');
     this.list.push(createItem());
   }
 
   shift() {
+    this.logTime('shift');
     this.list.shift();
   }
 
   pop() {
+    this.logTime('pop');
     this.list.pop();
   }
 
   move() {
+    this.logTime('move');
     const index = this.list.findIndex(item => item.id === +this.targetId);
     const [item] = this.list.splice(index, 1);
     this.list.unshift(item);
   }
 
   change() {
+    this.logTime('change');
     const index = this.list.findIndex(item => item.id === +this.targetId);
     const item = createItem();
     this.list.splice(index, 1, item);

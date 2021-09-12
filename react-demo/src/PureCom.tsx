@@ -9,11 +9,8 @@ function PureCom() {
   const [list, setList] = useState<any[]>([]);
   const [targetId, setTargetId] = useState(10);
 
-  const logTime = (sign: string, noUse?: any) => {
-    logger(sign);
-  }
-
   const run = () => {
+    logger('run');
     const _list = [];
     for (let i = 0; i < maxLength; i++) {
       _list.push(createItem());
@@ -22,26 +19,31 @@ function PureCom() {
   }
 
   const unshift = () => {
+    logger('unshift');
     list.unshift(createItem());
     setList([...list]);
   }
 
   const push = () => {
+    logger('push');
     list.push(createItem());
     setList([...list]);
   }
 
   const shift = () => {
+    logger('shift');
     list.shift();
     setList([...list]);
   }
 
   const pop = () => {
+    logger('pop');
     list.pop();
     setList([...list]);
   }
 
   const move = () => {
+    logger('move');
     const index = list.findIndex(item => item.id === targetId);
     const [item] = list.splice(index, 1);
     list.unshift(item);
@@ -49,6 +51,7 @@ function PureCom() {
   }
 
   const change = () => {
+    logger('change');
     const index = list.findIndex(item => item.id === targetId);
     const item = createItem();
     list.splice(index, 1, item);
@@ -69,15 +72,15 @@ function PureCom() {
       <h2>PureComponent</h2>
       <div className="action-bar">
         <input type="text" value={maxLength} onChange={(e) => setMaxLength(parseInt(e.target.value))} />
-        <button onClick={() => logTime('run', run())}>run</button> &nbsp;&nbsp;&nbsp;&nbsp;
-        <button onClick={() => logTime('unshift', unshift())}>unshift</button>
-        <button onClick={() => logTime('push', push())}>push</button>
-        <button onClick={() => logTime('shift', shift())}>shift</button>
-        <button onClick={() => logTime('pop', pop())}>pop</button>
+        <button onClick={() => run()}>run</button> &nbsp;&nbsp;&nbsp;&nbsp;
+        <button onClick={() => unshift()}>unshift</button>
+        <button onClick={() => push()}>push</button>
+        <button onClick={() => shift()}>shift</button>
+        <button onClick={() => pop()}>pop</button>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <input type="text" value={targetId} onChange={(e) => setTargetId(+e.target.value)} />
-        <button onClick={() => logTime('move', move())} disabled={!targetId}>move</button>
-        <button onClick={() => logTime('change', change())} disabled={!targetId}>change</button>
+        <button onClick={() => move()} disabled={!targetId}>move</button>
+        <button onClick={() => change()} disabled={!targetId}>change</button>
       </div>
 
       <div>

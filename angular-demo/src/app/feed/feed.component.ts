@@ -8,14 +8,14 @@ import { first } from 'rxjs/operators';
     <div>{{item.author + item.id}} :</div>
     <div>{{item.content}}</div>
     <div>
-      <button class="btn" (click)="logTime('favorite',favorite())">favorite {{item.favorite || ''}}</button>
-      <button class="btn" (click)="logTime('like',like())">like {{item.like || ''}}</button>
-      <button class="btn" (click)="logTime('forward',forward())">forward {{item.forward || ''}}</button>
-      <button class="btn" (click)="logTime('toggle',toggle())">comment {{item.comments.length || ''}}</button>
+      <button class="btn" (click)="favorite()">favorite {{item.favorite || ''}}</button>
+      <button class="btn" (click)="like()">like {{item.like || ''}}</button>
+      <button class="btn" (click)="forward()">forward {{item.forward || ''}}</button>
+      <button class="btn" (click)="toggle()">comment {{item.comments.length || ''}}</button>
     </div>
     <div *ngIf="item.isShowComment">
       <input type="text" [(ngModel)]="item.newComment" />
-      <button (click)="logTime('comment',comment())" [disabled]="!item.newComment">ok</button>
+      <button (click)="comment()" [disabled]="!item.newComment">ok</button>
       <div *ngFor="let comment of item.comments; trackBy: trackById" >{{comment.content}}</div>
     </div>
   `,
@@ -27,29 +27,34 @@ export class FeedComponent {
 
   constructor(private ngZone: NgZone) { }
 
-  logTime(sign: string, fnReturn?: any) {
+  logTime(sign: string) {
     this.ngZone.runOutsideAngular(() => {
       logger(sign);
     });
   }
 
   toggle() {
+    this.logTime('toggle');
     this.item.isShowComment = !this.item.isShowComment;
   }
 
   favorite() {
+    this.logTime('favorite');
     this.item.favorite += 1;
   }
 
   like() {
+    this.logTime('like');
     this.item.like += 1;
   }
 
   forward() {
+    this.logTime('forward');
     this.item.forward += 1;
   }
 
   comment() {
+    this.logTime('comment');
     this.item.comments.push({
       id: this.item.id + 10000 + this.item.comments.length,
       content: this.item.newComment
