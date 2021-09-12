@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOM操作一定触发更新吗</title>
+</head>
+
+<body>
+  <button onclick="start()">开始</button>
+  <div id="box" style="border: solid 2px red;width: 100px;height: 50px;"></div>
+  <script>
+    function longTask(seconds) {
+      const time = Date.now();
+      while (Date.now() - time < seconds * 1000) {
+
+      }
+    }
+
+    function run() {
+      const ele = document.getElementById('box');
+
+      console.log('开始了');
+      ele.style.width = '200px';
+      longTask(2);
+      ele.style.width = '400px';
+      longTask(4);
+      console.log('结束了')
+    }
+
+    function start() {
+      // setTimeout(run, 0);
+      Promise.resolve().then(run);
+    }
+
+  </script>
+</body>
+
+</html>

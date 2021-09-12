@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原生js编程</title>
+</head>
+
+<body>
+  <button onclick="add(this)">count 0</button>
+  <script>
+    let count = 0;
+
+    function add(ele) {
+      count++;
+      ele.textContent = `count ${count}`;
+
+      console.time('promise');
+      console.time('timeout');
+      Promise.resolve().then(promiseFn);
+
+      setTimeout(timeoutFn, 0);
+    }
+
+    function promiseFn() {
+      console.timeEnd('promise');
+    }
+
+    function timeoutFn() {
+      console.timeEnd('timeout');
+    }
+  </script>
+</body>
+
+</html>
