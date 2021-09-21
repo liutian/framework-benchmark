@@ -3,15 +3,15 @@
     <h2>PureComponent</h2>
     <div class="action-bar">
       <input type="text" v-model="maxLength" />
-      <button @click="logTime('run',run())">run</button> &nbsp;&nbsp;&nbsp;&nbsp;
-      <button @click="logTime('unshift',unshift())">unshift</button>
-      <button @click="logTime('push',push())">push</button>
-      <button @click="logTime('shift',shift())">shift</button>
-      <button @click="logTime('pop',pop())">pop</button>
+      <button @click="logger('run',run())">run</button> &nbsp;&nbsp;&nbsp;&nbsp;
+      <button @click="logger('unshift',unshift())">unshift</button>
+      <button @click="logger('push',push())">push</button>
+      <button @click="logger('shift',shift())">shift</button>
+      <button @click="logger('pop',pop())">pop</button>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <input type="text" v-model="targetId" />
-      <button @click="logTime('move',move())" :disabled="!targetId">move</button>
-      <button @click="logTime('change',change())" :disabled="!targetId">change</button>
+      <button @click="logger('move',move())" :disabled="!targetId">move</button>
+      <button @click="logger('change',change())" :disabled="!targetId">change</button>
     </div>
 
     <div>
@@ -20,12 +20,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import logger from "../logger";
 import { createItem } from "../util";
-import Feed from "./Feed";
+import Feed from "./Feed.vue";
 
-export default {
+interface DataType {
+  list: any[],
+  targetId: number,
+  maxLength: number,
+  logger: any;
+}
+
+export default defineComponent({
   components: {
     Feed
   },
@@ -34,8 +42,8 @@ export default {
       list: [],
       targetId: 10,
       maxLength: 30000,
-      logTime: logger(this.$nextTick)
-    };
+      logger
+    } as DataType;
   },
   methods: {
     run() {
@@ -67,5 +75,5 @@ export default {
       this.list.splice(index, 1, item);
     }
   }
-};
+})
 </script>

@@ -1,55 +1,57 @@
 <template>
   <div>
-    <div>{{item.author + item.id}} :</div>
-    <div>{{item.content}}</div>
+    <div>{{itemData.author + itemData.id}} :</div>
+    <div>{{itemData.content}}</div>
     <div>
-      <button class="btn" @click="logTime('favorite',favorite())">favorite {{item.favorite || ''}}</button>
-      <button class="btn" @click="logTime('like',like())">like {{item.like || ''}}</button>
-      <button class="btn" @click="logTime('forward',forward())">forward {{item.forward || ''}}</button>
-      <button class="btn" @click="logTime('toggle',toggle())">comment {{item.comments.length || ''}}</button>
+      <button class="btn" @click="logger('favorite',favorite())">favorite {{itemData.favorite || ''}}</button>
+      <button class="btn" @click="logger('like',like())">like {{itemData.like || ''}}</button>
+      <button class="btn" @click="logger('forward',forward())">forward {{itemData.forward || ''}}</button>
+      <button class="btn" @click="logger('toggle',toggle())">comment {{itemData.comments.length || ''}}</button>
     </div>
-    <div v-if="item.isShowComment">
-      <input type="text" v-model="item.newComment" />
-      <button @click="logTime('comment',comment())" :disabled="!item.newComment">ok</button>
-      <div v-for="comment of item.comments" :key="comment.id">{{comment.content}}</div>
+    <div v-if="itemData.isShowComment">
+      <input type="text" v-model="itemData.newComment" />
+      <button @click="logger('comment',comment())" :disabled="!itemData.newComment">ok</button>
+      <div v-for="comment of itemData.comments" :key="comment.id">{{comment.content}}</div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import logger from "../logger";
 
-export default {
-  props: ["item"],
+export default defineComponent({
+  props: ['item'],
   data() {
     return {
-      logTime: logger(this.$nextTick)
+      itemData: this.item,
+      logger
     };
   },
   methods: {
     toggle() {
-      this.item.isShowComment = !this.item.isShowComment;
+      this.itemData.isShowComment = !this.itemData.isShowComment;
     },
 
     favorite() {
-      this.item.favorite += 1;
+      this.itemData.favorite += 1;
     },
 
     like() {
-      this.item.like += 1;
+      this.itemData.like += 1;
     },
 
     forward() {
-      this.item.forward += 1;
+      this.itemData.forward += 1;
     },
 
     comment() {
-      this.item.comments.push({
-        id: this.item.id + 10000 + this.item.comments.length,
-        content: this.item.newComment
+      this.itemData.comments.push({
+        id: this.itemData.id + 10000 + this.itemData.comments.length,
+        content: this.itemData.newComment
       });
-      this.item.newComment = "";
+      this.itemData.newComment = "";
     }
   }
-};
+});
 </script>

@@ -1,22 +1,16 @@
 <template>
-  <div id="app">
-    <!-- <PureHtml /> -->
-    <PureComponent />
-  </div>
+  <FeedList/>
 </template>
 
-<script>
-// import PureHtml from "./components/PureHtml.vue";
-import PureComponent from "./components/PureComponent.vue";
+<script lang="ts">
+import { defineComponent } from 'vue';
+import FeedList from './components/FeedList.vue';
 
-export default {
-  name: "App",
+export default defineComponent({
+  name: 'App',
   components: {
-    // PureHtml,
-    PureComponent
+    FeedList
   }
-};
+});
 </script>
 
-<style>
-</style>
