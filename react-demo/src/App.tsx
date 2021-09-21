@@ -1,9 +1,9 @@
 import React from 'react';
-import PureCom from './PureCom';
+import FeedList from './FeedList';
 
 function App() {
   return (
-    <PureCom></PureCom>
+    <FeedList />
   );
 }
 

@@ -4,7 +4,7 @@ import Feed from './Feed';
 import logger from './logger';
 import { createItem } from './util';
 
-function PureCom() {
+function FeedList() {
   const [maxLength, setMaxLength] = useState(30000);
   const [list, setList] = useState<any[]>([]);
   const [targetId, setTargetId] = useState(10);
@@ -69,10 +69,11 @@ function PureCom() {
 
   return (
     <>
-      <h2>PureComponent</h2>
+      <h2>feed list</h2>
       <div className="action-bar">
         <input type="text" value={maxLength} onChange={(e) => setMaxLength(parseInt(e.target.value))} />
-        <button onClick={() => run()}>run</button> &nbsp;&nbsp;&nbsp;&nbsp;
+        <button onClick={() => run()}>run</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
         <button onClick={() => unshift()}>unshift</button>
         <button onClick={() => push()}>push</button>
         <button onClick={() => shift()}>shift</button>
@@ -96,4 +97,4 @@ function PureCom() {
   );
 }
 
-export default PureCom;
+export default FeedList;

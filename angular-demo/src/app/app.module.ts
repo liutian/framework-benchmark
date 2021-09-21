@@ -3,16 +3,14 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { PureHtmlComponent } from './pure-html/pure-html.component';
+import { FeedListComponent } from './feed-list/feed-list.component';
 import { FeedComponent } from './feed/feed.component';
-import { PureComComponent } from './pure-com/pure-com.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PureHtmlComponent,
+    FeedListComponent,
     FeedComponent,
-    PureComComponent
   ],
   imports: [
     BrowserModule,

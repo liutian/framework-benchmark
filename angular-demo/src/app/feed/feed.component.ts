@@ -19,8 +19,6 @@ import { first } from 'rxjs/operators';
       <div *ngFor="let comment of item.comments; trackBy: trackById" >{{comment.content}}</div>
     </div>
   `,
-  styles: [
-  ]
 })
 export class FeedComponent {
   @Input() public item: any;

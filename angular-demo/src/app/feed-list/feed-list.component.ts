@@ -3,12 +3,13 @@ import logger from '../logger';
 import { createItem } from '../util';
 
 @Component({
-  selector: 'app-pure-com',
+  selector: 'app-feed-list',
   template: `
-    <h2>PureComponent</h2>
+    <h2>feed list</h2>
     <div class="action-bar">
       <input type="text" [(ngModel)]="maxLength" />
-      <button (click)="run()">run</button> &nbsp;&nbsp;&nbsp;&nbsp;
+      <button (click)="run()">run</button> 
+      &nbsp;&nbsp;&nbsp;&nbsp;
       <button (click)="unshift()">unshift</button>
       <button (click)="push()">push</button>
       <button (click)="shift()">shift</button>
@@ -23,10 +24,8 @@ import { createItem } from '../util';
       <app-feed class="item-block" *ngFor="let item of list;trackBy: trackById" [item]="item" ></app-feed>
     </div>
   `,
-  styles: [
-  ]
 })
-export class PureComComponent {
+export class FeedListComponent {
   list: any[] = [];
   maxLength = 30000;
   targetId = 10;
