@@ -207,21 +207,25 @@
   }();
 
   const logger = (sign) => {
-    const time = performance.now();
+    const startTime = performance.now();
+    let scriptTime;
 
     Promise.resolve().then(promiseFn);
 
     setTimeout(timeoutFn);
 
     function promiseFn() {
-      const diff = (performance.now() - time);
-      console.log(`${sign}[framework]: ${diff}ms`);
+      scriptTime = performance.now() - startTime;
+      console.log(`${sign}[script]: ${scriptTime}ms`);
       longTask();
     }
 
     function timeoutFn() {
-      const diff = (performance.now() - time);
-      console.log(`${sign}[total]: ${diff}ms`);
+      const nowTime = performance.now();
+      const totalTime = nowTime - startTime;
+      const renderTime = totalTime - scriptTime;
+      console.log(`${sign}[render]: ${renderTime}ms`);
+      console.log(`${sign}[total]: ${totalTime}ms`);
       longTask();
     }
   }
