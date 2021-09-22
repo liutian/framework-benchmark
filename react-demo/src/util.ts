@@ -4,7 +4,7 @@ export function createItem() {
   return {
     id: ++uuid,
     author: "xxx",
-    content: "hello world " + uuid,
+    content: "hello world ...... ---> " + uuid,
     comments: [],
     isShowComment: false,
     favorite: 0,
