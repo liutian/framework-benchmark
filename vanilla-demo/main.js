@@ -11,15 +11,16 @@
     return ele;
   }
   const maxLengthInput = $('#max-length-input');
-  const runBtn = $('#run-btn');
+  const batchCreateBtn = $('#batch-create-btn');
   const unshiftBtn = $('#unshift-btn');
   const pushBtn = $('#push-btn');
   const shiftBtn = $('#shift-btn');
   const popBtn = $('#pop-btn');
   const targetIdInput = $('#target-id-input');
-  const moveBtn = $('#move-btn');
-  const changeBtn = $('#change-btn');
-  const containerEle = $('#container');
+  const moveHeadBtn = $('#move-head-btn');
+  const replaceBtn = $('#replace-btn');
+  const delBtn = $('#del-btn');
+  const containerEle = $('.container');
 
   let maxLength = 30000;
   const list = [];
@@ -29,19 +30,21 @@
   function main() {
     bindEvent();
     maxLengthInput.value = maxLength;
+    targetIdInput.value = 10;
   }
 
   function bindEvent() {
-    runBtn.addEventListener('click', run);
+    batchCreateBtn.addEventListener('click', batchCreate);
     unshiftBtn.addEventListener('click', unshift);
     pushBtn.addEventListener('click', push);
     shiftBtn.addEventListener('click', shift);
     popBtn.addEventListener('click', pop);
-    moveBtn.addEventListener('click', move);
-    changeBtn.addEventListener('click', change);
+    moveHeadBtn.addEventListener('click', moveHead);
+    replaceBtn.addEventListener('click', replace);
+    delBtn.addEventListener('click', del);
     maxLengthInput.addEventListener('input', (e) => maxLength = parseInt(e.target.value));
     containerEle.addEventListener('click', (e) => {
-      if (e.target._btnType === 'comment') {
+      if (e.target.className.includes('btn-type-comment')) {
         logger('toggle');
         const itemData = e.target.parentElement.parentElement._data;
         if (e.target._hidden || e.target._hidden === undefined) {
@@ -52,7 +55,7 @@
           commentContainerEle.appendChild(commentInputEle);
 
           const newCommentBtn = $ele('button', null, 'ok');
-          newCommentBtn._btnType = 'new-comment-btn';
+          newCommentBtn.className = 'btn-type-new-comment';
           commentContainerEle.appendChild(newCommentBtn);
 
           const commentListEle = $ele('div', 'comment-list');
@@ -67,19 +70,20 @@
           e.target.parentElement.parentElement.lastElementChild.remove();
           e.target._hidden = true;
         }
-      } else if (e.target._btnType === 'new-comment-btn') {
+      } else if (e.target.className.includes('btn-type-new-comment')) {
         logger('comment');
         const itemData = e.target.parentElement.parentElement._data;
         const newComment = e.target.previousElementSibling.value;
         e.target.nextElementSibling.appendChild($ele('div', null, newComment));
         e.target.previousElementSibling.value = '';
         itemData.commentList.push(newComment);
-      } else if (e.target._btnType) {
-        const type = e.target._btnType;
+        e.target.parentElement.parentElement.querySelector('.btn-type-comment').textContent = `comment ${itemData.commentList.length}`;
+      } else if (e.target.className.includes('btn-type-like')) {
+        const type = 'btn-type-like';
         logger(type);
         const itemData = e.target.parentElement.parentElement._data;
         const count = itemData[type] || 0;
-        e.target.textContent = `${e.target._btnType} ${count + 1}`;
+        e.target.textContent = `like ${count + 1}`;
         itemData[type] = count + 1;
         e.stopPropagation();
       }
@@ -114,31 +118,48 @@
     containerEle.lastElementChild.remove();
   }
 
-  function move() {
-    logger('move');
+  function moveHead() {
+    logger('moveHead');
     const moveTargetId = +targetIdInput.value;
     const index = list.findIndex(item => item.id === moveTargetId);
     const [item] = list.splice(index, 1);
     list.unshift(item);
-    const ele = containerEle.children.item(index);
-    containerEle.insertBefore(ele, containerEle.children.item(0));
+    containerEle.insertBefore(item._ele, containerEle.children.item(0));
   }
 
-  function change() {
-    logger('change');
-    const changeTargetId = +targetIdInput.value;
-    const index = list.findIndex(item => item.id === changeTargetId);
-    const item = createItem();
-    list.splice(index, 1, item);
+  function replace() {
+    logger('replace');
+    const replaceTargetId = +targetIdInput.value;
+    const oldIndex = list.findIndex(item => item.id === replaceTargetId);
+    if (oldIndex === -1) {
+      return;
+    }
 
-    const itemEle = createItemEle(item);
-    const oldEle = containerEle.children.item(index);
-    containerEle.insertBefore(itemEle, oldEle);
+    const oldEle = list[oldIndex]._ele;
+
+    const newItem = createItem();
+    list.splice(oldIndex, 1, newItem);
+
+    const newItemEle = createItemEle(newItem);
+    containerEle.insertBefore(newItemEle, oldEle);
     oldEle.remove();
   }
 
-  function run() {
-    logger('run');
+  function del() {
+    logger('del');
+    const replaceTargetId = +targetIdInput.value;
+    const oldIndex = list.findIndex(item => item.id === replaceTargetId);
+    if (oldIndex === -1) {
+      return;
+    }
+
+    const oldEle = list[oldIndex]._ele;
+    oldEle.remove();
+    list.splice(oldIndex, 1);
+  }
+
+  function batchCreate() {
+    logger('batchCreate');
     const fragment = document.createDocumentFragment();
 
     for (let i = 0; i < maxLength; i++) {
@@ -165,27 +186,19 @@
 
     const btnActionEle = $ele();
 
-    const favoriteBtn = $ele('button');
-    favoriteBtn._btnType = 'favorite';
-    favoriteBtn.appendChild(document.createTextNode('favorite'));
-    btnActionEle.appendChild(favoriteBtn);
-
     const likeBtn = $ele('button');
-    likeBtn._btnType = 'like';
+    likeBtn.className = 'btn-type-like';
     likeBtn.appendChild(document.createTextNode('like'));
     btnActionEle.appendChild(likeBtn);
 
-    const forwardBtn = $ele('button');
-    forwardBtn._btnType = 'forward';
-    forwardBtn.appendChild(document.createTextNode('forward'));
-    btnActionEle.appendChild(forwardBtn);
-
     const commentBtn = $ele('button');
-    commentBtn._btnType = 'comment';
+    commentBtn.className = 'btn-type-comment';
     commentBtn.appendChild(document.createTextNode('comment'));
     btnActionEle.appendChild(commentBtn);
 
     rootEle.appendChild(btnActionEle);
+
+    itemData._ele = rootEle;
     return rootEle;
   }
 
@@ -198,16 +211,14 @@
         content: "hello world " + uuid,
         comments: [],
         isShowComment: false,
-        favorite: 0,
         like: 0,
-        forward: 0,
         commentList: []
       };
     }
   }();
 
   const logger = (sign) => {
-    const startTime = performance.now();
+    const startTime = Date.now();
     let scriptTime;
 
     Promise.resolve().then(promiseFn);
@@ -215,13 +226,13 @@
     setTimeout(timeoutFn);
 
     function promiseFn() {
-      scriptTime = performance.now() - startTime;
+      scriptTime = Date.now() - startTime;
       console.log(`${sign}[script]: ${scriptTime}ms`);
       longTask();
     }
 
     function timeoutFn() {
-      const nowTime = performance.now();
+      const nowTime = Date.now();
       const totalTime = nowTime - startTime;
       const renderTime = totalTime - scriptTime;
       console.log(`${sign}[render]: ${renderTime}ms`);

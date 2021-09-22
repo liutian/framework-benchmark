@@ -1,6 +1,6 @@
 
 export default function (sign: string) {
-  const startTime = performance.now();
+  const startTime = Date.now();
   let scriptTime: number;
 
   Promise.resolve().then(promiseFn);
@@ -8,13 +8,13 @@ export default function (sign: string) {
   setTimeout(timeoutFn);
 
   function promiseFn() {
-    scriptTime = performance.now() - startTime;
+    scriptTime = Date.now() - startTime;
     console.log(`${sign}[script]: ${scriptTime}ms`);
     longTask();
   }
 
   function timeoutFn() {
-    const nowTime = performance.now();
+    const nowTime = Date.now();
     const totalTime = nowTime - startTime;
     const renderTime = totalTime - scriptTime;
     console.log(`${sign}[render]: ${renderTime}ms`);

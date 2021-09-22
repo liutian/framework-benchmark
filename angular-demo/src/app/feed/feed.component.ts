@@ -8,9 +8,7 @@ import { first } from 'rxjs/operators';
     <div>{{item.author + item.id}} :</div>
     <div>{{item.content}}</div>
     <div>
-      <button class="btn" (click)="favorite()">favorite {{item.favorite || ''}}</button>
       <button class="btn" (click)="like()">like {{item.like || ''}}</button>
-      <button class="btn" (click)="forward()">forward {{item.forward || ''}}</button>
       <button class="btn" (click)="toggle()">comment {{item.comments.length || ''}}</button>
     </div>
     <div *ngIf="item.isShowComment">
@@ -36,19 +34,9 @@ export class FeedComponent {
     this.item.isShowComment = !this.item.isShowComment;
   }
 
-  favorite() {
-    this.logTime('favorite');
-    this.item.favorite += 1;
-  }
-
   like() {
     this.logTime('like');
     this.item.like += 1;
-  }
-
-  forward() {
-    this.logTime('forward');
-    this.item.forward += 1;
   }
 
   comment() {

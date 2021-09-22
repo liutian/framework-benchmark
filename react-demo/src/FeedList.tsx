@@ -9,8 +9,8 @@ function FeedList() {
   const [list, setList] = useState<any[]>([]);
   const [targetId, setTargetId] = useState(10);
 
-  const run = () => {
-    logger('run');
+  const batchCreate = () => {
+    logger('batchCreate');
     const _list = [];
     for (let i = 0; i < maxLength; i++) {
       _list.push(createItem());
@@ -42,19 +42,26 @@ function FeedList() {
     setList([...list]);
   }
 
-  const move = () => {
-    logger('move');
+  const moveHead = () => {
+    logger('moveHead');
     const index = list.findIndex(item => item.id === targetId);
     const [item] = list.splice(index, 1);
     list.unshift(item);
     setList([...list]);
   }
 
-  const change = () => {
-    logger('change');
+  const replace = () => {
+    logger('replace');
     const index = list.findIndex(item => item.id === targetId);
     const item = createItem();
     list.splice(index, 1, item);
+    setList([...list]);
+  }
+
+  const del = () => {
+    logger('del');
+    const index = list.findIndex(item => item.id === targetId);
+    list.splice(index, 1);
     setList([...list]);
   }
 
@@ -69,10 +76,10 @@ function FeedList() {
 
   return (
     <>
-      <h2>feed list</h2>
       <div className="action-bar">
+        <h2>feed list</h2>
         <input type="text" value={maxLength} onChange={(e) => setMaxLength(parseInt(e.target.value))} />
-        <button onClick={() => run()}>run</button>
+        <button onClick={() => batchCreate()}>batchCreate</button>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <button onClick={() => unshift()}>unshift</button>
         <button onClick={() => push()}>push</button>
@@ -80,11 +87,12 @@ function FeedList() {
         <button onClick={() => pop()}>pop</button>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <input type="text" value={targetId} onChange={(e) => setTargetId(+e.target.value)} />
-        <button onClick={() => move()} disabled={!targetId}>move</button>
-        <button onClick={() => change()} disabled={!targetId}>change</button>
+        <button onClick={() => moveHead()} disabled={!targetId}>moveHead</button>
+        <button onClick={() => replace()} disabled={!targetId}>replace</button>
+        <button onClick={() => del()} disabled={!targetId}>del</button>
       </div>
 
-      <div>
+      <div className="container">
         {
           list.map((item) => {
             return <div className="item-block" key={item.id}>

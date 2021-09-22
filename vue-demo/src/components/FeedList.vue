@@ -1,20 +1,21 @@
 <template>
   <div>
-    <h2>PureComponent</h2>
     <div class="action-bar">
+      <h2>feed list</h2>
       <input type="text" v-model="maxLength" />
-      <button @click="logger('run',run())">run</button> &nbsp;&nbsp;&nbsp;&nbsp;
-      <button @click="logger('unshift',unshift())">unshift</button>
-      <button @click="logger('push',push())">push</button>
-      <button @click="logger('shift',shift())">shift</button>
-      <button @click="logger('pop',pop())">pop</button>
+      <button @click="batchCreate()">batchCreate</button> &nbsp;&nbsp;&nbsp;&nbsp;
+      <button @click="unshift()">unshift</button>
+      <button @click="push()">push</button>
+      <button @click="shift()">shift</button>
+      <button @click="pop()">pop</button>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <input type="text" v-model="targetId" />
-      <button @click="logger('move',move())" :disabled="!targetId">move</button>
-      <button @click="logger('change',change())" :disabled="!targetId">change</button>
+      <button @click="moveHead()" :disabled="!targetId">moveHead</button>
+      <button @click="replace()" :disabled="!targetId">replace</button>
+      <button @click="del()" :disabled="!targetId">del</button>
     </div>
 
-    <div>
+    <div class="container">
       <Feed class="item-block" v-for="item of list" :key="item.id" :item="item" />
     </div>
   </div>
@@ -30,7 +31,6 @@ interface DataType {
   list: any[],
   targetId: number,
   maxLength: number,
-  logger: any;
 }
 
 export default defineComponent({
@@ -42,37 +42,48 @@ export default defineComponent({
       list: [],
       targetId: 10,
       maxLength: 30000,
-      logger
     } as DataType;
   },
   methods: {
-    run() {
+    batchCreate() {
+      logger('batchCreate');
       this.list = [];
       for (let i = 0; i < this.maxLength; i++) {
         this.list.push(createItem());
       }
     },
     unshift() {
+      logger('unshift');
       this.list.unshift(createItem());
     },
     push() {
+      logger('push');
       this.list.push(createItem());
     },
     shift() {
+      logger('shift');
       this.list.shift();
     },
     pop() {
+      logger('pop');
       this.list.pop();
     },
-    move() {
+    moveHead() {
+      logger('moveHead');
       const index = this.list.findIndex(item => item.id === +this.targetId);
       const [item] = this.list.splice(index, 1);
       this.list.unshift(item);
     },
-    change() {
+    replace() {
+      logger('replace');
       const index = this.list.findIndex(item => item.id === +this.targetId);
       const item = createItem();
       this.list.splice(index, 1, item);
+    },
+    del() {
+      logger('del');
+      const index = this.list.findIndex(item => item.id === +this.targetId);
+      this.list.splice(index, 1);
     }
   }
 })

@@ -15,18 +15,28 @@
     }
 
     .action-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
       text-align: center;
       margin-bottom: 20px;
+      width: 100%;
+      background-color: #fff;
+      padding-bottom: 20px;
+    }
+
+    .container {
+      margin-top: 120px;
     }
   </style>
 </head>
 
 <body>
   <main>
-    <h2>feed list</h2>
     <div class="action-bar">
+      <h2>feed list</h2>
       <input type="text" id="max-length-input" />
-      <button id="run-btn">run</button>
+      <button id="batch-create-btn">batchCreate</button>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <button id="unshift-btn">unshift</button>
       <button id="push-btn">push</button>
@@ -34,11 +44,12 @@
       <button id="pop-btn">pop</button>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <input type="text" id="target-id-input" />
-      <button id="move-btn">move</button>
-      <button id="change-btn">change</button>
+      <button id="move-head-btn">moveHead</button>
+      <button id="replace-btn">replace</button>
+      <button id="del-btn">del</button>
     </div>
 
-    <div id="container">
+    <div class="container">
 
     </div>
   </main>

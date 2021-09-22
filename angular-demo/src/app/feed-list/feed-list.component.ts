@@ -5,10 +5,10 @@ import { createItem } from '../util';
 @Component({
   selector: 'app-feed-list',
   template: `
+  <div class="action-bar">
     <h2>feed list</h2>
-    <div class="action-bar">
       <input type="text" [(ngModel)]="maxLength" />
-      <button (click)="run()">run</button> 
+      <button (click)="batchCreate()">batchCreate</button> 
       &nbsp;&nbsp;&nbsp;&nbsp;
       <button (click)="unshift()">unshift</button>
       <button (click)="push()">push</button>
@@ -16,11 +16,12 @@ import { createItem } from '../util';
       <button (click)="pop()">pop</button>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <input type="text" [(ngModel)]="targetId" />
-      <button (click)="move()" [disabled]="!targetId">move</button>
-      <button (click)="change()" [disabled]="!targetId">change</button>
+      <button (click)="moveHead()" [disabled]="!targetId">moveHead</button>
+      <button (click)="replace()" [disabled]="!targetId">replace</button>
+      <button (click)="del()" [disabled]="!targetId">del</button>
     </div>
 
-    <div>
+    <div class="container">
       <app-feed class="item-block" *ngFor="let item of list;trackBy: trackById" [item]="item" ></app-feed>
     </div>
   `,
@@ -37,8 +38,8 @@ export class FeedListComponent {
     });
   }
 
-  run() {
-    this.logTime('run');
+  batchCreate() {
+    this.logTime('batchCreate');
     this.list = [];
     for (let i = 0; i < this.maxLength; i++) {
       this.list.push(createItem());
@@ -65,18 +66,24 @@ export class FeedListComponent {
     this.list.pop();
   }
 
-  move() {
-    this.logTime('move');
+  moveHead() {
+    this.logTime('moveHead');
     const index = this.list.findIndex(item => item.id === +this.targetId);
     const [item] = this.list.splice(index, 1);
     this.list.unshift(item);
   }
 
-  change() {
-    this.logTime('change');
+  replace() {
+    this.logTime('replace');
     const index = this.list.findIndex(item => item.id === +this.targetId);
     const item = createItem();
     this.list.splice(index, 1, item);
+  }
+
+  del() {
+    this.logTime('del');
+    const index = this.list.findIndex(item => item.id === +this.targetId);
+    this.list.splice(index, 1);
   }
 
   trackById(item: any) {
