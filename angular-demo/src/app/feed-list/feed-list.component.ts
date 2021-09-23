@@ -9,6 +9,7 @@ import { createItem } from '../util';
     <h2>feed list</h2>
       <input type="text" [(ngModel)]="maxLength" />
       <button (click)="batchCreate()">batchCreate</button> 
+      <button (click)="clear()">clear</button> 
       &nbsp;&nbsp;&nbsp;&nbsp;
       <button (click)="unshift()">unshift</button>
       <button (click)="push()">push</button>
@@ -84,6 +85,11 @@ export class FeedListComponent {
     this.logTime('del');
     const index = this.list.findIndex(item => item.id === +this.targetId);
     this.list.splice(index, 1);
+  }
+
+  clear() {
+    this.logTime('clear');
+    this.list = [];
   }
 
   trackById(item: any) {

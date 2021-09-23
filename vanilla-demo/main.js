@@ -21,6 +21,7 @@
   const replaceBtn = $('#replace-btn');
   const delBtn = $('#del-btn');
   const containerEle = $('.container');
+  const clearBtn = $('#clear-btn');
 
   let maxLength = 30000;
   const list = [];
@@ -35,6 +36,7 @@
 
   function bindEvent() {
     batchCreateBtn.addEventListener('click', batchCreate);
+    clearBtn.addEventListener('click', clear);
     unshiftBtn.addEventListener('click', unshift);
     pushBtn.addEventListener('click', push);
     shiftBtn.addEventListener('click', shift);
@@ -170,6 +172,12 @@
     }
 
     containerEle.appendChild(fragment);
+  }
+
+  function clear() {
+    logger('clear');
+    containerEle.innerHTML = '';
+    list = [];
   }
 
   function createItemEle(itemData) {

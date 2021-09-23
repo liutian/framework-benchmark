@@ -65,6 +65,10 @@ function FeedList() {
     setList([...list]);
   }
 
+  const clear = () => {
+    logger('clear');
+    setList([]);
+  }
   // 测试 useLayoutEffect useEffect
   // useLayoutEffect(() => {
   //   longTask();
@@ -80,6 +84,7 @@ function FeedList() {
         <h2>feed list</h2>
         <input type="text" value={maxLength} onChange={(e) => setMaxLength(parseInt(e.target.value))} />
         <button onClick={() => batchCreate()}>batchCreate</button>
+        <button onClick={() => clear()}>clear</button>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <button onClick={() => unshift()}>unshift</button>
         <button onClick={() => push()}>push</button>

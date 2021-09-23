@@ -3,7 +3,9 @@
     <div class="action-bar">
       <h2>feed list</h2>
       <input type="text" v-model="maxLength" />
-      <button @click="batchCreate()">batchCreate</button> &nbsp;&nbsp;&nbsp;&nbsp;
+      <button @click="batchCreate()">batchCreate</button>
+      <button @click="clear()">clear</button>
+      &nbsp;&nbsp;&nbsp;&nbsp;
       <button @click="unshift()">unshift</button>
       <button @click="push()">push</button>
       <button @click="shift()">shift</button>
@@ -51,6 +53,10 @@ export default defineComponent({
       for (let i = 0; i < this.maxLength; i++) {
         this.list.push(createItem());
       }
+    },
+    clear(){
+      logger('clear');
+      this.list = [];
     },
     unshift() {
       logger('unshift');
