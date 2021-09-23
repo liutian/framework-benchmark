@@ -3,7 +3,9 @@ export default function (sign: string) {
   const startTime = Date.now();
   let scriptTime: number;
 
-  Promise.resolve().then(promiseFn);
+  Promise.resolve().then(() => {
+    Promise.resolve().then(promiseFn)
+  });
 
   setTimeout(timeoutFn);
 
