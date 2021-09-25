@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import logger from '../logger';
-import { createItem } from '../util';
+import logger, { showStat } from '../logger';
+import { resetUUID, createItem } from '../util';
 
 @Component({
   selector: 'app-feed-list',
@@ -9,7 +9,7 @@ import { createItem } from '../util';
     <h2>feed list</h2>
       <input type="text" [(ngModel)]="maxLength" />
       <button (click)="batchCreate()">batchCreate</button> 
-      <button (click)="clear()">clear</button> 
+      <button (click)="reset()">reset</button> 
       &nbsp;&nbsp;&nbsp;&nbsp;
       <button (click)="unshift()">unshift</button>
       <button (click)="push()">push</button>
@@ -20,10 +20,12 @@ import { createItem } from '../util';
       <button (click)="moveHead()" [disabled]="!targetId">moveHead</button>
       <button (click)="replace()" [disabled]="!targetId">replace</button>
       <button (click)="del()" [disabled]="!targetId">del</button>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <button (click)="showStat()" >showStat</button>
     </div>
 
     <div class="container">
-      <app-feed class="item-block" *ngFor="let item of list;trackBy: trackById" [item]="item" ></app-feed>
+      <app-feed class="item-block" *ngFor="let item of list" [item]="item" ></app-feed>
     </div>
   `,
 })
@@ -37,6 +39,10 @@ export class FeedListComponent {
     this.ngZone.runOutsideAngular(() => {
       logger(sign);
     });
+  }
+
+  showStat() {
+    showStat();
   }
 
   batchCreate() {
@@ -87,12 +93,10 @@ export class FeedListComponent {
     this.list.splice(index, 1);
   }
 
-  clear() {
-    this.logTime('clear');
+  reset() {
+    this.logTime('reset');
     this.list = [];
+    resetUUID();
   }
 
-  trackById(item: any) {
-    return item.id;
-  }
 }

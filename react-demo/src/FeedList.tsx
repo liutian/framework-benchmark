@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import Feed from './Feed';
-import logger from './logger';
-import { createItem } from './util';
+import logger, { showStat } from './logger';
+import { createItem, resetUUID } from './util';
 
 function FeedList() {
   const [maxLength, setMaxLength] = useState(30000);
@@ -65,9 +65,10 @@ function FeedList() {
     setList([...list]);
   }
 
-  const clear = () => {
-    logger('clear');
+  const reset = () => {
+    logger('reset');
     setList([]);
+    resetUUID();
   }
   // 测试 useLayoutEffect useEffect
   // useLayoutEffect(() => {
@@ -84,7 +85,7 @@ function FeedList() {
         <h2>feed list</h2>
         <input type="text" value={maxLength} onChange={(e) => setMaxLength(parseInt(e.target.value))} />
         <button onClick={() => batchCreate()}>batchCreate</button>
-        <button onClick={() => clear()}>clear</button>
+        <button onClick={() => reset()}>reset</button>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <button onClick={() => unshift()}>unshift</button>
         <button onClick={() => push()}>push</button>
@@ -95,6 +96,8 @@ function FeedList() {
         <button onClick={() => moveHead()} disabled={!targetId}>moveHead</button>
         <button onClick={() => replace()} disabled={!targetId}>replace</button>
         <button onClick={() => del()} disabled={!targetId}>del</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button onClick={() => showStat()} disabled={!targetId}>showStat</button>
       </div>
 
       <div className="container">

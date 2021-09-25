@@ -1,4 +1,10 @@
+const dataInfo = {} as any;
+
 export default function (sign: string) {
+  if(!dataInfo[sign]){
+    dataInfo[sign] = [];
+  }
+
   const startTime = Date.now();
   let scriptTime: number;
 
@@ -19,6 +25,7 @@ export default function (sign: string) {
     console.log(`${sign}[render]: ${renderTime}ms`);
     console.log(`${sign}[total]: ${totalTime}ms`);
     longTask();
+    dataInfo[sign].push({renderTime, scriptTime, totalTime});
   }
 }
 
@@ -27,4 +34,26 @@ function longTask(length = 1) {
   for (let i = 0, num = 0; i < length; i++) {
     num = i * i * i;
   }
+}
+
+export function showStat(){
+  Object.keys(dataInfo).forEach((sign) => {
+    console.log(`${sign} stat : `);
+    console.table(dataInfo[sign]);
+    const total = dataInfo[sign].reduce((pre: any, curr: any) => {
+      Object.keys(curr).forEach((key) => {
+        pre[key] = curr[key] + (pre[key] || 0);
+      });
+      return pre;
+    },{});
+    
+    const avg = {...total};
+
+    Object.keys(avg).forEach((key) => {
+      avg[key] = avg[key] / dataInfo[sign].length;
+    });
+
+    console.log(`${sign} avg : `);
+    console.table([avg]);
+  })
 }

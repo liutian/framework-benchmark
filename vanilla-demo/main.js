@@ -21,10 +21,11 @@
   const replaceBtn = $('#replace-btn');
   const delBtn = $('#del-btn');
   const containerEle = $('.container');
-  const clearBtn = $('#clear-btn');
+  const resetBtn = $('#reset-btn');
+  const showStatBtn = $('#show-stat-btn');
 
   let maxLength = 30000;
-  const list = [];
+  let list = [];
 
   main();
 
@@ -36,7 +37,7 @@
 
   function bindEvent() {
     batchCreateBtn.addEventListener('click', batchCreate);
-    clearBtn.addEventListener('click', clear);
+    resetBtn.addEventListener('click', reset);
     unshiftBtn.addEventListener('click', unshift);
     pushBtn.addEventListener('click', push);
     shiftBtn.addEventListener('click', shift);
@@ -44,6 +45,7 @@
     moveHeadBtn.addEventListener('click', moveHead);
     replaceBtn.addEventListener('click', replace);
     delBtn.addEventListener('click', del);
+    showStatBtn.addEventListener('click', showStat);
     maxLengthInput.addEventListener('input', (e) => maxLength = parseInt(e.target.value));
     containerEle.addEventListener('click', (e) => {
       if (e.target.className.includes('btn-type-comment')) {
@@ -174,10 +176,11 @@
     containerEle.appendChild(fragment);
   }
 
-  function clear() {
-    logger('clear');
+  function reset() {
+    logger('reset');
     containerEle.innerHTML = '';
     list = [];
+    resetUUID();
   }
 
   function createItemEle(itemData) {
@@ -225,7 +228,17 @@
     }
   }();
 
+  const resetUUID = () => {
+    uuid = 0;
+  }
+
+  const dataInfo = {};
+
   const logger = (sign) => {
+    if (!dataInfo[sign]) {
+      dataInfo[sign] = [];
+    }
+
     const startTime = Date.now();
     let scriptTime;
 
@@ -246,6 +259,7 @@
       console.log(`${sign}[render]: ${renderTime}ms`);
       console.log(`${sign}[total]: ${totalTime}ms`);
       longTask();
+      dataInfo[sign].push({ renderTime, scriptTime, totalTime });
     }
   }
 
@@ -254,5 +268,27 @@
     for (let i = 0, num = 0; i < length; i++) {
       num = i * i * i;
     }
+  }
+
+  function showStat() {
+    Object.keys(dataInfo).forEach((sign) => {
+      console.log(`${sign} stat : `);
+      console.table(dataInfo[sign]);
+      const total = dataInfo[sign].reduce((pre, curr) => {
+        Object.keys(curr).forEach((key) => {
+          pre[key] = curr[key] + (pre[key] || 0);
+        });
+        return pre;
+      }, {});
+
+      const avg = { ...total };
+
+      Object.keys(avg).forEach((key) => {
+        avg[key] = avg[key] / dataInfo[sign].length;
+      });
+
+      console.log(`${sign} avg : `);
+      console.table([avg]);
+    })
   }
 })();

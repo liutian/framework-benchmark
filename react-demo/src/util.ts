@@ -13,3 +13,7 @@ export function createItem() {
     newComment: ''
   };
 }
+
+export function resetUUID() {
+  uuid = 0;
+}

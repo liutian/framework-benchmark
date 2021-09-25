@@ -12,3 +12,7 @@ export function createItem() {
     forward: 0
   };
 }
+
+export function resetUUID() {
+  uuid = 0;
+}
