@@ -53,7 +53,8 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "sourceMap": true
           },
           "configurations": {
             "production": {
@@ -89,13 +90,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-demo:build",
-            "sourceMap": true
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "angular-demo:build:production"
-            }
+            "browserTarget": "angular-demo:build"
           }
         },
         "extract-i18n": {
