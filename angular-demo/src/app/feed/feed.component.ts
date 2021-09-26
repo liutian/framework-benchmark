@@ -23,9 +23,9 @@ export class FeedComponent {
 
   constructor(private ngZone: NgZone) { }
 
-  logTime(sign: string) {
+  logTime(trackId: string) {
     this.ngZone.runOutsideAngular(() => {
-      logger(sign);
+      logger(trackId);
     });
   }
 

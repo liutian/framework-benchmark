@@ -1,9 +1,9 @@
 const dataInfo = {} as any;
 
 // eslint-disable-next-line
-export default function (sign: string) {
-  if(!dataInfo[sign]){
-    dataInfo[sign] = [];
+export default function (trackId: string) {
+  if(!dataInfo[trackId]){
+    dataInfo[trackId] = [];
   }
 
   const startTime = Date.now();
@@ -15,7 +15,7 @@ export default function (sign: string) {
 
   function promiseFn() {
     scriptTime = Date.now() - startTime;
-    console.log(`${sign}[script]: ${scriptTime}ms`);
+    console.log(`${trackId}[script]: ${scriptTime}ms`);
     longTask();
   }
 
@@ -23,10 +23,10 @@ export default function (sign: string) {
     const nowTime = Date.now();
     const totalTime = nowTime - startTime;
     const renderTime = totalTime - scriptTime;
-    console.log(`${sign}[render]: ${renderTime}ms`);
-    console.log(`${sign}[total]: ${totalTime}ms`);
+    console.log(`${trackId}[render]: ${renderTime}ms`);
+    console.log(`${trackId}[total]: ${totalTime}ms`);
     longTask();
-    dataInfo[sign].push({renderTime, scriptTime, totalTime});
+    dataInfo[trackId].push({renderTime, scriptTime, totalTime});
   }
 }
 
@@ -39,10 +39,10 @@ function longTask(length = 1) {
 }
 
 export function showStat(){
-  Object.keys(dataInfo).forEach((sign) => {
-    console.log(`${sign} stat : `);
-    console.table(dataInfo[sign]);
-    const total = dataInfo[sign].reduce((pre: any, curr: any) => {
+  Object.keys(dataInfo).forEach((trackId) => {
+    console.log(`${trackId} stat : `);
+    console.table(dataInfo[trackId]);
+    const total = dataInfo[trackId].reduce((pre: any, curr: any) => {
       Object.keys(curr).forEach((key) => {
         pre[key] = curr[key] + (pre[key] || 0);
       });
@@ -52,10 +52,10 @@ export function showStat(){
     const avg = {...total};
 
     Object.keys(avg).forEach((key) => {
-      avg[key] = avg[key] / dataInfo[sign].length;
+      avg[key] = avg[key] / dataInfo[trackId].length;
     });
 
-    console.log(`${sign} avg : `);
+    console.log(`${trackId} avg : `);
     console.table([avg]);
   })
 }
