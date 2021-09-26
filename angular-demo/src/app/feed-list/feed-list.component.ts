@@ -35,18 +35,14 @@ export class FeedListComponent {
   targetId = 10;
   constructor(private ngZone: NgZone) { }
 
-  logTime(trackId: string) {
-    this.ngZone.runOutsideAngular(() => {
-      logger(trackId);
-    });
-  }
-
   showStat() {
     showStat();
   }
 
   batchCreate() {
-    this.logTime('batchCreate');
+    this.ngZone.runOutsideAngular(() => {
+      logger('batchCreate');
+    });
     this.list = [];
     for (let i = 0; i < this.maxLength; i++) {
       this.list.push(createItem());
@@ -54,47 +50,63 @@ export class FeedListComponent {
   }
 
   unshift() {
-    this.logTime('unshift');
+    this.ngZone.runOutsideAngular(() => {
+      logger('unshift');
+    });
     this.list.unshift(createItem());
   }
 
   push() {
-    this.logTime('push');
+    this.ngZone.runOutsideAngular(() => {
+      logger('push');
+    });
     this.list.push(createItem());
   }
 
   shift() {
-    this.logTime('shift');
+    this.ngZone.runOutsideAngular(() => {
+      logger('shift');
+    });
     this.list.shift();
   }
 
   pop() {
-    this.logTime('pop');
+    this.ngZone.runOutsideAngular(() => {
+      logger('pop');
+    });
     this.list.pop();
   }
 
   moveHead() {
-    this.logTime('moveHead');
+    this.ngZone.runOutsideAngular(() => {
+      logger('moveHead');
+    });
     const index = this.list.findIndex(item => item.id === +this.targetId);
     const [item] = this.list.splice(index, 1);
     this.list.unshift(item);
   }
 
   replace() {
-    this.logTime('replace');
+    this.ngZone.runOutsideAngular(() => {
+      logger('replace');
+    });
     const index = this.list.findIndex(item => item.id === +this.targetId);
     const item = createItem();
     this.list.splice(index, 1, item);
   }
 
   del() {
-    this.logTime('del');
+    this.ngZone.runOutsideAngular(() => {
+      logger('del');
+    });
     const index = this.list.findIndex(item => item.id === +this.targetId);
     this.list.splice(index, 1);
   }
 
   reset() {
-    this.logTime('reset');
+    this.ngZone.runOutsideAngular(() => {
+      logger('reset');
+    });
     this.list = [];
     resetUUID();
   }

@@ -12,9 +12,9 @@ import { first } from 'rxjs/operators';
       <button class="btn" (click)="toggle()">comment {{item.comments.length || ''}}</button>
     </div>
     <div *ngIf="item.isShowComment">
-      <input type="text" [(ngModel)]="item.newComment" />
+      <input type="text" [(ngModel)]="item.newComment" (keypress)="keypress()"/>
       <button (click)="comment()" [disabled]="!item.newComment">ok</button>
-      <div *ngFor="let comment of item.comments; trackBy: trackById" >{{comment.content}}</div>
+      <div *ngFor="let comment of item.comments;" >{{comment.content}}</div>
     </div>
   `,
 })
@@ -23,24 +23,24 @@ export class FeedComponent {
 
   constructor(private ngZone: NgZone) { }
 
-  logTime(trackId: string) {
-    this.ngZone.runOutsideAngular(() => {
-      logger(trackId);
-    });
-  }
-
   toggle() {
-    this.logTime('toggle');
+    this.ngZone.runOutsideAngular(() => {
+      logger('toggle');
+    });
     this.item.isShowComment = !this.item.isShowComment;
   }
 
   like() {
-    this.logTime('like');
+    this.ngZone.runOutsideAngular(() => {
+      logger('like');
+    });
     this.item.like += 1;
   }
 
   comment() {
-    this.logTime('comment');
+    this.ngZone.runOutsideAngular(() => {
+      logger('comment');
+    });
     this.item.comments.push({
       id: this.item.id + 10000 + this.item.comments.length,
       content: this.item.newComment
@@ -48,7 +48,9 @@ export class FeedComponent {
     this.item.newComment = "";
   }
 
-  trackById(comment: any) {
-    return comment.id;
+  keypress(){
+    this.ngZone.runOutsideAngular(() => {
+      logger('keypress',true);
+    });
   }
 }

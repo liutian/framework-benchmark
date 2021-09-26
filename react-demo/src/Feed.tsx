@@ -27,6 +27,9 @@ function App({ item }: { item: any }) {
     setItemData({ ...itemData });
   }
 
+  const keypress = () => {
+    logger('keypress',true);
+  }
 
   return (
     <>
@@ -42,7 +45,7 @@ function App({ item }: { item: any }) {
             <input type="text" value={itemData.newComment} onChange={(e) => {
               itemData.newComment = e.target.value;
               setItemData({ ...itemData });
-            }} />
+            }} onKeyPress={keypress}/>
             <button onClick={() => comment()} disabled={!itemData.newComment}> ok</button >
             {
               itemData.comments.map((comment: any) => {

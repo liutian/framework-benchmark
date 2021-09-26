@@ -46,12 +46,12 @@
     replaceBtn.addEventListener('click', replace);
     delBtn.addEventListener('click', del);
     showStatBtn.addEventListener('click', showStat);
-    maxLengthInput.addEventListener('input', (e) => maxLength = parseInt(e.target.value));
-    containerEle.addEventListener('click', (e) => {
-      if (e.target.className.includes('btn-type-comment')) {
+    maxLengthInput.addEventListener('input', () => maxLength = parseInt(maxLengthInput.value));
+    containerEle.addEventListener('click', (event) => {
+      if (event.target.className.includes('btn-type-comment')) {
         logger('toggle');
-        const itemData = e.target.parentElement.parentElement._data;
-        if (e.target._hidden || e.target._hidden === undefined) {
+        const itemData = event.target.parentElement.parentElement._data;
+        if (event.target._hidden || event.target._hidden === undefined) {
 
           const commentContainerEle = $ele('div', 'comment-container');
 
@@ -68,30 +68,36 @@
           });
           commentContainerEle.appendChild(commentListEle);
 
-          e.target.parentElement.parentElement.appendChild(commentContainerEle);
-          e.target._hidden = false;
+          event.target.parentElement.parentElement.appendChild(commentContainerEle);
+          event.target._hidden = false;
         } else {
-          e.target.parentElement.parentElement.lastElementChild.remove();
-          e.target._hidden = true;
+          event.target.parentElement.parentElement.lastElementChild.remove();
+          event.target._hidden = true;
         }
-      } else if (e.target.className.includes('btn-type-new-comment')) {
+      } else if (event.target.className.includes('btn-type-new-comment')) {
         logger('comment');
-        const itemData = e.target.parentElement.parentElement._data;
-        const newComment = e.target.previousElementSibling.value;
-        e.target.nextElementSibling.appendChild($ele('div', null, newComment));
-        e.target.previousElementSibling.value = '';
+        const itemData = event.target.parentElement.parentElement._data;
+        const newComment = event.target.previousElementSibling.value;
+        event.target.nextElementSibling.appendChild($ele('div', null, newComment));
+        event.target.previousElementSibling.value = '';
         itemData.commentList.push(newComment);
-        e.target.parentElement.parentElement.querySelector('.btn-type-comment').textContent = `comment ${itemData.commentList.length}`;
-      } else if (e.target.className.includes('btn-type-like')) {
+        event.target.parentElement.parentElement.querySelector('.btn-type-comment').textContent = `comment ${itemData.commentList.length}`;
+      } else if (event.target.className.includes('btn-type-like')) {
         const type = 'btn-type-like';
         logger(type);
-        const itemData = e.target.parentElement.parentElement._data;
+        const itemData = event.target.parentElement.parentElement._data;
         const count = itemData[type] || 0;
-        e.target.textContent = `like ${count + 1}`;
+        event.target.textContent = `like ${count + 1}`;
         itemData[type] = count + 1;
-        e.stopPropagation();
+        event.stopPropagation();
       }
     });
+
+    containerEle.addEventListener('keypress', (event) => {
+      if(event.target.className.includes('comment-input')){
+        logger('keypress', true);
+      }
+    })
   }
 
   function unshift() {
@@ -234,7 +240,7 @@
 
   const dataInfo = {};
 
-  const logger = (trackId) => {
+  const logger = (trackId, useAnimationFrame = false) => {
     if (!dataInfo[trackId]) {
       dataInfo[trackId] = [];
     }
@@ -244,7 +250,11 @@
 
     Promise.resolve().then(promiseFn);
 
-    setTimeout(timeoutFn);
+    if(useAnimationFrame){
+      requestAnimationFrame(timeoutFn);
+    }else{
+      setTimeout(timeoutFn);
+    }
 
     function promiseFn() {
       scriptTime = Date.now() - startTime;

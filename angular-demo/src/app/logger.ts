@@ -1,6 +1,6 @@
 const dataInfo = {} as any;
 
-export default function (trackId: string) {
+export default function (trackId: string, useAnimationFrame = false) {
   if(!dataInfo[trackId]){
     dataInfo[trackId] = [];
   }
@@ -10,7 +10,11 @@ export default function (trackId: string) {
 
   Promise.resolve().then(promiseFn);
 
-  setTimeout(timeoutFn);
+  if(useAnimationFrame){
+    requestAnimationFrame(timeoutFn);
+  }else{
+    setTimeout(timeoutFn);
+  }
 
   function promiseFn() {
     scriptTime = Date.now() - startTime;

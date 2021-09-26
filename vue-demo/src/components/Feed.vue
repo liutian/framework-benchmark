@@ -7,7 +7,7 @@
       <button class="btn" @click="toggle()">comment {{itemData.comments.length || ''}}</button>
     </div>
     <div v-if="itemData.isShowComment">
-      <input type="text" v-model="itemData.newComment" />
+      <input type="text" v-model="itemData.newComment" @keypress="keypress()"/>
       <button @click="comment()" :disabled="!itemData.newComment">ok</button>
       <div v-for="comment of itemData.comments" :key="comment.id">{{comment.content}}</div>
     </div>
@@ -43,6 +43,9 @@ export default defineComponent({
         content: this.itemData.newComment
       });
       this.itemData.newComment = "";
+    },
+    keypress(){
+      logger('keypress', true);
     }
   }
 });
