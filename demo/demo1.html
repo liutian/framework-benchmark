@@ -5,32 +5,69 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>原生js编程</title>
+  <title>原生DOM编程</title>
 </head>
 
 <body>
-  <button onclick="add(this)">count 0</button>
+  <div id="container" style="margin: 20px auto;width: 700px;">
+    <div id="list" style="margin: 20px 0;">
+
+    </div>
+    <button id="loadMore">加载更多</button>
+  </div>
+
   <script>
-    let count = 0;
+    (function () {
+      window.addEventListener('load', load);
+      let increaseId = 0;
 
-    function add(ele) {
-      count++;
-      ele.textContent = `count ${count}`;
+      document.getElementById('loadMore').addEventListener('click', load);
 
-      console.time('promise');
-      console.time('timeout');
-      Promise.resolve().then(promiseFn);
+      function load() {
+        const listEle = document.getElementById('list');
 
-      setTimeout(timeoutFn, 0);
-    }
+        for (let i = 0; i < 10; i++) {
+          const id = ++increaseId;
+          const itemEle = createItemEle({
+            content: 'hello world ' + id,
+            likeCount: 0
+          });
+          listEle.appendChild(itemEle);
+        }
+      }
 
-    function promiseFn() {
-      console.timeEnd('promise');
-    }
+      function createItemEle(data) {
+        const itemEle = document.createElement('div');
 
-    function timeoutFn() {
-      console.timeEnd('timeout');
-    }
+        const contentEle = document.createElement('div');
+        contentEle.textContent = data.content;
+
+        const likeBtnEle = document.createElement('button');
+        likeBtnEle.type = 'button';
+        likeBtnEle.textContent = `赞${data.likeCount}`;
+        likeBtnEle.addEventListener('click', like);
+
+        const removeBtnEle = document.createElement('button');
+        removeBtnEle.type = 'button';
+        removeBtnEle.textContent = '移除';
+        removeBtnEle.addEventListener('click', remove);
+
+        itemEle.appendChild(contentEle);
+        itemEle.appendChild(likeBtnEle);
+        itemEle.appendChild(removeBtnEle);
+        itemEle._data = data;
+
+        return itemEle;
+      }
+
+      function like() {
+        this.textContent = `赞${++this.parentElement._data.likeCount}`;
+      }
+
+      function remove() {
+        this.parentElement.remove();
+      }
+    })();
   </script>
 </body>
 
