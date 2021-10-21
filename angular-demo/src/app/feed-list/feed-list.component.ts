@@ -25,7 +25,7 @@ import { resetUUID, createItem } from '../util';
     </div>
 
     <div class="container">
-      <app-feed class="item-block" *ngFor="let item of list" [item]="item" ></app-feed>
+      <app-feed class="item-block" *ngFor="let item of list; trackBy: trackByFn" [item]="item" ></app-feed>
     </div>
   `,
 })
@@ -111,4 +111,7 @@ export class FeedListComponent {
     resetUUID();
   }
 
+  trackByFn(index, item) { 
+　　return item.id; 
+　} 
 }
