@@ -1,6 +1,6 @@
-- 性能测试项目：`react-demo` `angular-demo` `vue-demo` `vanilla-demo`
+- 全局状态管理控制台方案：`demo/console`
 - 全局状态管理案例：`demo/global-state-angular` `demo/global-state-react` `demo/global-state-vue`
-- 原生DOM编程 `demo/demo1.html` 
-- DOM操作案例：`demo/demo2.html`
-- 全局状态管理控制台方案：`demo/demo3`
-- DOM更新-事件循环：`demo/demo4.html`
+- DOM与刷新：`demo/dom-refresh.html`
+- 原生DOM编程 `demo/dom.html` 
+- 性能测试项目：`react-demo` `angular-demo` `vue-demo` `vanilla-demo`
+- DOM更新-事件循环：`demo/dom-event-loop.html`
